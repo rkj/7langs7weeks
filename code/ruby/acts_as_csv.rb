@@ -33,11 +33,13 @@ class ActsAsCsv
   end
 end
 
-class RubyCsv < ActsAsCsv
-  acts_as_csv
-end
+if __FILE__ == $0
+  class RubyCsv < ActsAsCsv
+    acts_as_csv
+  end
 
-m = RubyCsv.new
-puts m.headers.inspect
-puts m.csv_contents.inspect
+  m = RubyCsv.new
+  puts m.headers.inspect
+  puts m.csv_contents.inspect
+end
 
