@@ -4,10 +4,9 @@
 
 class Bowling
   def roll(pins)
-    raise NotImplementedError
   end
 
   def score
-    raise NotImplementedError
+    0
   end
 end
