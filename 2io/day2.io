@@ -1,6 +1,7 @@
 Object printAndDo := method(
     "\n==========" println
     call message arguments join(", ") println
+    // WTF?!
     //call message code print
     //call message print
     "----------" println
@@ -56,7 +57,7 @@ Matrix dim := method(x, y,
   tmp := Matrix clone
   for (i, 0, y-1,
     row := List clone
-    for (j, 0, x-1, row append(nil))
+    for (j, 0, x-1, row append(0))
     tmp append(row)
   )
   tmp
@@ -116,6 +117,20 @@ Matrix load := method(filename,
 fn := "/tmp/matrix.txt"
 m save(fn)
 printAndDo(Matrix load(fn))
+
+// ex 3
+listSum := List getSlot("sum")
+Matrix sum := method(
+  // WTF?!
+  // List getSlot("sum") println
+  // s := List getSlot("sum")
+  // map(l, l sum) s
+  // map(l, l sum) (List getSlot("sum"))
+  map(l, l sum) listSum
+)
+m set(1, 1, 50)
+m set(0, 2, 27)
+printAndDo(m, m sum)
 
 // ex 8
 "\n\nTime for some guessing game... Try to guess number from 1 to 100" println
