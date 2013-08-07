@@ -117,3 +117,12 @@ fn := "/tmp/matrix.txt"
 m save(fn)
 printAndDo(Matrix load(fn))
 
+// ex 8
+"\n\nTime for some guessing game... Try to guess number from 1 to 100" println
+rand := Random value(1, 100) round
+in := -1
+while (in != rand,
+  if (in > rand, "overshot", "undershot") println
+  in := File standardInput readLine asNumber
+)
+
