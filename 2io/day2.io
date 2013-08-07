@@ -1,9 +1,9 @@
 Object printAndDo := method(
-    "------------------" println
+    "\n------------------" println
     call message arguments join(", ") println
     //call message code print
     //call message print
-    "+++++++++++++++++" println
+    "====================" println
     call evalArgs join(", ") println
 ) 
 // warmUp
