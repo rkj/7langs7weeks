@@ -1,11 +1,12 @@
 Object printAndDo := method(
-    "\n------------------" println
+    "\n==========" println
     call message arguments join(", ") println
     //call message code print
     //call message print
-    "====================" println
+    "----------" println
     call evalArgs join(", ") println
-) 
+)
+
 // warmUp
 printAndDo(10)
 printAndDo(10, 20, 30)
@@ -52,11 +53,13 @@ printAndDo(list(1, 2, 3, 100) myAverage)
 
 Matrix := List clone
 Matrix dim := method(x, y,
-  for (i, 0, y,
+  tmp := Matrix clone
+  for (i, 0, y-1,
     row := List clone
-    for (j, 0, x, row append(nil))
-    append(row)
+    for (j, 0, x-1, row append(nil))
+    tmp append(row)
   )
+  tmp
 )
 Matrix asString := method(
   map(l, l asString) join("\n")
@@ -72,3 +75,45 @@ printAndDo(
 printAndDo(
   m get(1, 2)
 )
+
+// ex 6
+Matrix transpose := method(
+  x := size
+  y := at(0) size
+  new := Matrix dim(x, y)
+  for (i, 0, y-1,
+    for (j, 0, x-1, new set(j, i, get(i, j)))
+  )
+  new
+)
+printAndDo(m transpose)
+printAndDo(m transpose == m)
+printAndDo(m transpose transpose == m)
+
+// ex 7
+Matrix y := method(size)
+Matrix x := method(at(0) size)
+Matrix save := method(filename,
+  f := File with(filename)
+  f remove
+  f openForUpdating
+  f write(x() .. "," .. y() .. "\n")
+  f write(asString)
+  f close
+)
+
+Matrix load := method(filename,
+  f := File with(filename)
+  f openForReading
+  size := f readLine split(",")
+  ret := Matrix dim(size at(0) asNumber, size at(1) asNumber)
+  f readLines foreach(i, line,
+    ret atPut(i, doString(line))
+  )
+  f close
+  ret
+)
+fn := "/tmp/matrix.txt"
+m save(fn)
+printAndDo(Matrix load(fn))
+
