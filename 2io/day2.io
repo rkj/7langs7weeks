@@ -53,11 +53,11 @@ printAndDo(list(1, 2, 3, 100) myAverage)
 // ex 5
 
 Matrix := List clone
-Matrix dim := method(x, y,
+Matrix dim := method(x, y, default,
   tmp := Matrix clone
   for (i, 0, y-1,
     row := List clone
-    for (j, 0, x-1, row append(0))
+    for (j, 0, x-1, row append(default))
     tmp append(row)
   )
   tmp
@@ -69,7 +69,7 @@ Matrix set := method(x, y, value, at(y) atPut(x, value))
 Matrix get := method(x, y, at(y) at(x))
 
 printAndDo(
-  m := Matrix dim(3, 4)
+  m := Matrix dim(3, 4, 0)
   m set(1, 2, 100)
   m
 )
