@@ -4,7 +4,13 @@ Builder indent := 0
 Builder forward := method(
   write(" " repeated(self indent))
   write("<", call message name)
-  map := call message arguments at(0) 
+  map := doMessage(call message arguments at(0))
+  if(map type == "MapX",
+    map asList sort foreach(kv, 
+      key := kv at(0); value := kv at(1)
+      (" " .. key .. "=\"" .. value .. "\"") print
+    )
+  )
   writeln(">")
   self indent = self indent + 2
   call message arguments foreach(arg,
@@ -49,5 +55,5 @@ MapX atPutX := method(key, value,
 } asJson println
 
 Builder book({"author": "Tate"},
-  text("XYZ")
+  text({"a": 1, "b": "arg", "c": "!"}, "XYZ")
 )
