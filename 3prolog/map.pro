@@ -19,8 +19,23 @@ all_assigned([S|States], Colors, [[S, C]|Assignment]) :-
   all_assigned(States, Colors, Assignment).
 all_assigned([], _, []).
 
+all_assigned2([S|States], Colors, Assignment) :-
+  member(C, Colors),
+  member([S, C], Assignment),
+  all_assigned2(States, Colors, Assignment).
+
 coloring(States, Colors, Assignment) :-
   all_assigned(States, Colors, Assignment),
+  \+(invalid(Assignment))
+  .
+
+coloring1(States, Colors, Assignment) :-
+  \+(invalid(Assignment)),
+  all_assigned(States, Colors, Assignment)
+  .
+
+coloring2(States, Colors, Assignment) :-
+  all_assigned2(States, Colors, Assignment),
   \+(invalid(Assignment))
   .
 
