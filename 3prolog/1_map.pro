@@ -29,11 +29,13 @@ coloring(States, Colors, Assignment) :-
   \+(invalid(Assignment))
   .
 
+% this is not working because of order of statements... WTF?
 coloring1(States, Colors, Assignment) :-
   \+(invalid(Assignment)),
   all_assigned(States, Colors, Assignment)
   .
 
+% this is not working because of infinite recursion
 coloring2(States, Colors, Assignment) :-
   all_assigned2(States, Colors, Assignment),
   \+(invalid(Assignment))
