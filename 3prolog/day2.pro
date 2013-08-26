@@ -41,8 +41,10 @@ my_sort([A], [A]).
 my_sort(L, [H|S]) :- smallest(L, H), concatenate(A, [H|B], L), concatenate(A, B, X), my_sort(X, S).
 
 pivot(_, [], [], []).
-pivot(A, [H|L], [H|S], G) :- pivot(A, L, S, G), H < A. 
-pivot(A, [H|L], S, [H|G]) :- pivot(A, L, S, G), H >= A. 
+%pivot(A, [H|L], [H|S], G) :- pivot(A, L, S, G), H < A. 
+%pivot(A, [H|L], S, [H|G]) :- pivot(A, L, S, G), H >= A. 
+pivot(A, [H|L], [H|S], G) :- H < A, pivot(A, L, S, G). 
+pivot(A, [H|L], S, [H|G]) :- H >= A, pivot(A, L, S, G). 
 qsort([], []).
 qsort([H|L], R) :-
   pivot(H, L, S, G),
