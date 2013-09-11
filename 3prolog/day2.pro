@@ -12,9 +12,9 @@ fib(1, [1]).
 fib(2, [1, 1]).
 %fib(3, [2, 1, 1]).
 %fib(4, [3, 2, 1, 1]).
-%fix(N, [A + B, A, B|T]) :- fib(N-1, [A, B|T]).
-fix(N, [S, A, B|T]) :- N1 is N - 1, S is A + B, fib(N1, [A, B|T]).
-%fix(N-1, [A, B|T]) :- fib(N, [A + B, A, B|T]).
+%fib(N, [A + B, A, B|T]) :- fib(N-1, [A, B|T]).
+fib(N, [S, A, B|T]) :- N1 is N - 1, fib(N1, [A, B|T]), S is A + B.
+%fib(N-1, [A, B|T]) :- fib(N, [A + B, A, B|T]).
 
 fib2(0, A, _, A).
 fib2(N, A, B, Res) :- N1 is N-1, S is A + B, fib2(N1, B, S, Res).
