@@ -9,9 +9,9 @@ object Board {
 
 class Board(val arr : Array[Array[Char]] ) {
   def this(repr : String) {
-    this(Board.parse(repr))
+    this(Board parse(repr))
   }
-  require(arr.size == 3)
+  require((arr size) == 3)
 
   def rows = arr
   def cols = arr.transpose
