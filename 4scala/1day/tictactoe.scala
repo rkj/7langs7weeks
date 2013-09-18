@@ -1,26 +1,13 @@
-object Field extends Enumeration {
-  type Field = Value
-  val X, O, E = Value
-}
-
 object Board {
   def parse(repr : String) = {
-    repr.split("\n").map { line =>
-      line.toCharArray.map { char =>
-        char match {
-          case 'X' => Field.X
-          case 'O' => Field.O
-          case 'E' => Field.E
-        }
-      }
-    }
+    repr.split("\n").map { line => line.toCharArray }
   }
-  def toString(arr : Array[Array[Field.Value]]) = {
+  def toString(arr : Array[Array[Char]]) = {
     arr.map { row => row.mkString(" ") }.mkString("\n")
   }
 }
 
-class Board(val arr : Array[Array[Field.Value]] ) {
+class Board(val arr : Array[Array[Char]] ) {
   def this(repr : String) {
     this(Board.parse(repr))
   }
@@ -42,12 +29,12 @@ class Board(val arr : Array[Array[Field.Value]] ) {
     val triplets = rows ++ cols ++ diags
     triplets.map { triplet =>
       val d = triplet.distinct
-      (d.size == 1 && d(0) != Field.E, d(0))
+      (d.size == 1 && d(0) != 'E', d(0))
     }.filter(b => b._1)
   }
   def state = {
     val w = win
-    val e = rows.exists { row => row.exists { f => f == Field.E }}
+    val e = rows.exists { row => row.exists { f => f == 'E' }}
     if (!w.isEmpty) {
       w(0)._2.toString + " won"
     } else if (e){
