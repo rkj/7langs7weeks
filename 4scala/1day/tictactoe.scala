@@ -13,12 +13,8 @@ class Board(val arr : Array[Array[Char]] ) {
   }
   require(arr.size == 3)
 
-  def rows = {
-    arr
-  }
-  def cols = {
-    arr transpose
-  }
+  def rows = arr
+  def cols = arr.transpose
   def diags = {
     Array(
       Array(arr(0)(0), arr(1)(1), arr(2)(2)),
@@ -26,18 +22,21 @@ class Board(val arr : Array[Array[Char]] ) {
     )
   }
   def win = {
-    val triplets = rows ++ cols ++ diags
-    triplets.map { triplet =>
-      val d = triplet.distinct
-      (d.size == 1 && d(0) != 'E', d(0))
-    }.filter(b => b._1)
+    val lines = rows ++ cols ++ diags
+    lines.map { line =>
+      val d = line.distinct
+      ( d.size == 1 && d(0) != 'E',
+        d(0))
+    }.filter(tuple => tuple._1).map (_._2)
   }
   def state = {
+    val isAnyEmpty = rows.exists { row =>
+      row.exists { _ == 'E' }
+    }
     val w = win
-    val e = rows.exists { row => row.exists { f => f == 'E' }}
     if (!w.isEmpty) {
-      w(0)._2.toString + " won"
-    } else if (e){
+      w(0).toString + " won"
+    } else if (isAnyEmpty){
       "Game in progress"
     } else {
       "Draw"
