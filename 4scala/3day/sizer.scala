@@ -2,6 +2,7 @@ import scala.io._
 import scala.actors._
 import Actor._
 import java.nio.charset.MalformedInputException
+import scala.xml.parsing._
 
 object PageLoader {
  def getPage(url : String) : String = {
@@ -37,8 +38,12 @@ def getPageSizeConcurrently() = {
 
  for(i <- 1 to urls.size) {
    receive {
-     case (url, page:String) =>
+     case (url:String, page:String) => {
        println("Size for " + url + ": " + page.length)
+       //val parser = XhtmlParser(Source.fromURL(url))
+       //parser \\ "a"
+       //print(parser \\ "a")
+     }
      case (url, _) => println("Bogus data for: " + url)
    }
  }
