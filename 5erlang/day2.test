@@ -1,0 +1,15 @@
+day2:tic_tac_toe([o, x, o,
+                  x, x, o,
+                  o, o, x ]).
+day2:tic_tac_toe([x, x, e,
+                  x, o, o,
+                  o, o, e ]).
+day2:tic_tac_toe([e, e, e,
+                  x, o, e,
+                  o, o, e ]).
+day2:tic_tac_toe([x, x, x,
+                  o, o, e,
+                  o, o, e ]).
+day2:tic_tac_toe([x, x, x,
+                  o, o, o,
+                  o, o, e ]).
