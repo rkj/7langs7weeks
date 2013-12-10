@@ -7,6 +7,7 @@
 (def shop (agent []))
 (def counter (atom 0))
 (def customer-cut (atom 0))
+(def WAITING-CHAIRS 3)
 (def HAIRCUT-TIME 2500)
 (def SPAWN-TIME '(1000 2000))
 
@@ -58,7 +59,7 @@
   (send-off barber next-client))
 
 (defn wait-for-haircut [customer]
-  (if (< (count @queue-chairs) 3)
+  (if (< (count @queue-chairs) WAITING-CHAIRS)
     (swap! queue-chairs conj customer)
     (myprint 12 "Barber is busy and no place for" customer))
   customer)
