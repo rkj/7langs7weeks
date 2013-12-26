@@ -18,7 +18,7 @@ module Main where
   isPrime n = all (\x -> n `mod` x /= 0) $ takeWhile (\x -> x * x <= n) primes
   mprimes = take 1000000 primes
 
-  split s limit = split' s "" "" [] 0 where
+  split limit s = split' s "" "" [] 0 where
     split' :: [Char] -> [Char] -> [Char] -> [[Char]] -> Integer -> [[Char]]
     split' (h:t) word line result length
       | h ==  ' ' && t == []  =  result ++ [line ++ word]
@@ -27,7 +27,7 @@ module Main where
       | length >= limit && line /= "" = split' t (word ++ [h]) "" (result ++ [line]) 0 -- bug here, zero should be word length
       | otherwise             =  split' t (word ++ [h]) line result (length + 1)
 
-  split2 s limit = split' s ("", "", "") [] 0 where
+  split2 limit s = split' s ("", "", "") [] 0 where
     split' [] (line, "", "") result length = result ++ [line]
     split' [] p result length = split' " " p result length
     split' (h:t) (line, rest, word) result length
@@ -35,7 +35,14 @@ module Main where
       | h == ' '                       =  split' t (line ++ word ++ [h], t, "") result (length + 1)
       | otherwise                      =  split' t (line, rest, word ++ [h]) result (length + 1)
 
-  splitnl s limit = fst lines where
+  splitNumber split s = fst lines where
     lines = foldl (\(res, lineno) line -> (res ++ [(show lineno) ++ ": " ++ line], lineno + 1) )
                    ([], 1)
-                   (split2 s limit)
+                   (split s)
+
+  splitSimple s = split' s "" [] where
+    split' :: [Char] -> [Char] -> [[Char]] -> [[Char]]
+    split' [] [] res = reverse(res)
+    split' [] acc res = split' " " acc res
+    split' (' ':t) acc res = split' t "" (reverse(acc):res)
+    split' (h:t) acc res = split' t (h:acc) res
