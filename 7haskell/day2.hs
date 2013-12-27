@@ -1,6 +1,8 @@
-
 module Main where
   import Data.List
+  import qualified Data.Sequence as Seq
+  import Data.Sequence ((|>))
+  import Data.Foldable (toList)
   import Test.QuickCheck
   import Test.HUnit
 
@@ -35,10 +37,10 @@ module Main where
       | h == ' '                       =  split' t (line ++ word ++ [h], t, "") result (length + 1)
       | otherwise                      =  split' t (line, rest, word ++ [h]) result (length + 1)
 
-  splitNumber split s = fst lines where
-    lines = foldl (\(res, lineno) line -> (res ++ [(show lineno) ++ ": " ++ line], lineno + 1) )
+  splitNumber lines = fst numbered where
+    numbered = foldl (\(res, lineno) line -> (res ++ [(show lineno) ++ ": " ++ line], lineno + 1) )
                    ([], 1)
-                   (split s)
+                   lines
 
   splitSimple s = split' s "" [] where
     split' :: [Char] -> [Char] -> [[Char]] -> [[Char]]
@@ -46,3 +48,16 @@ module Main where
     split' [] acc res = split' " " acc res
     split' (' ':t) acc res = split' t "" (reverse(acc):res)
     split' (h:t) acc res = split' t (h:acc) res
+
+  splitSimpleSeq s = split' s Seq.empty Seq.empty where
+    split' :: [Char] -> Seq.Seq Char -> Seq.Seq [Char] -> [[Char]]
+    split' "" acc res = if acc == Seq.empty
+                        then toList res
+                        else split' " " acc res
+    split' (' ':t) acc res = split' t Seq.empty (res |> (toList acc))
+    split' (h:t) acc res = split' t (acc |> h) res
+
+  main = do
+    print(splitNumber (split2 10 "The quick brown fox jumps over the lazy dog"))
+    print(splitNumber (splitSimple "The quick brown fox jumps over the lazy dog"))
+    print(splitNumber (splitSimpleSeq "The quick brown fox jumps over the lazy dog"))
